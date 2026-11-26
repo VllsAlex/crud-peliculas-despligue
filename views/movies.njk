@@ -1,0 +1,46 @@
+{% extends "base.njk" %}
+
+{% block content %}
+  <h1>Películas</h1>
+
+  <form action="/web/movies" method="get">
+    <label for="genre">Filtrar por género</label>
+    <p>
+      <input id="genre" name="genre" value="{{ genre }}" placeholder="Por ejemplo: Action">
+      <button type="submit">Filtrar</button>
+      <a href="/web/movies">Ver todas</a>
+    </p>
+  </form>
+
+  {% if movies.length %}
+    <table>
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Año</th>
+          <th>Géneros</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for movie in movies %}
+          <tr>
+            <td><a href="/web/movies/{{ movie.id }}">{{ movie.title }}</a></td>
+            <td>{{ movie.year }}</td>
+            <td>{{ movie.genre | default([], true) | join(', ') }}</td>
+            <td>
+              <div class="actions">
+                <a href="/web/movies/{{ movie.id }}/edit">Editar</a>
+                <form action="/web/movies/{{ movie.id }}/delete" method="post">
+                  <button type="submit">Eliminar</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No hay películas para mostrar.</p>
+  {% endif %}
+{% endblock %}

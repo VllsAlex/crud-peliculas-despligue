@@ -1,0 +1,33 @@
+{% extends "base.njk" %}
+
+{% block title %}{% if editing %}Editar{% else %}Añadir{% endif %} película{% endblock %}
+
+{% block content %}
+  <h1>{% if editing %}Editar{% else %}Añadir{% endif %} película</h1>
+
+  <form class="movie-form" method="post" action="{% if editing %}/web/movies/{{ movie.id }}/edit{% else %}/web/movies{% endif %}">
+    <label for="title">Título (obligatorio)</label>
+    <input id="title" name="title" value="{{ movie.title }}" required>
+
+    <label for="director">Director</label>
+    <input id="director" name="director" value="{{ movie.director }}">
+
+    <label for="year">Año</label>
+    <input id="year" name="year" type="number" value="{{ movie.year }}">
+
+    <label for="genre">Géneros (separados por comas)</label>
+    <input id="genre" name="genre" value="{{ movie.genre | default([], true) | join(', ') }}" placeholder="Action, Adventure">
+
+    <label for="duration">Duración (minutos)</label>
+    <input id="duration" name="duration" type="number" value="{{ movie.duration }}">
+
+    <label for="rate">Puntuación</label>
+    <input id="rate" name="rate" type="number" step="any" value="{{ movie.rate }}">
+
+    <label for="poster">URL del cartel</label>
+    <input id="poster" name="poster" type="url" value="{{ movie.poster }}">
+
+    <button type="submit">Guardar</button>
+    <a href="/web/movies">Cancelar</a>
+  </form>
+{% endblock %}

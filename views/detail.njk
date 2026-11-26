@@ -1,0 +1,31 @@
+{% extends "base.njk" %}
+
+{% block title %}{{ movie.title }}{% endblock %}
+
+{% block content %}
+  <h1>{{ movie.title }}</h1>
+
+  {% if movie.poster %}
+    <img src="{{ movie.poster }}" alt="Cartel de {{ movie.title }}" width="200">
+  {% endif %}
+
+  <dl>
+    <dt>Director</dt>
+    <dd>{{ movie.director }}</dd>
+    <dt>Año</dt>
+    <dd>{{ movie.year }}</dd>
+    <dt>Géneros</dt>
+    <dd>{{ movie.genre | default([], true) | join(', ') }}</dd>
+    <dt>Duración (minutos)</dt>
+    <dd>{{ movie.duration }}</dd>
+    <dt>Puntuación</dt>
+    <dd>{{ movie.rate }}</dd>
+  </dl>
+
+  <div class="actions">
+    <a href="/web/movies/{{ movie.id }}/edit">Editar</a>
+    <form action="/web/movies/{{ movie.id }}/delete" method="post">
+      <button type="submit">Eliminar</button>
+    </form>
+  </div>
+{% endblock %}

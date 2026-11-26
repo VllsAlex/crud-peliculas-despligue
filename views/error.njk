@@ -1,0 +1,10 @@
+{% extends "base.njk" %}
+
+{% block title %}Error{% endblock %}
+
+{% block content %}
+  <h1>No se ha podido completar la operación</h1>
+  <p>{{ message }}</p>
+  <p>Si estabas rellenando un formulario, vuelve atrás en el navegador y revisa los datos.</p>
+  <a href="/web/movies">Volver al listado</a>
+{% endblock %}
