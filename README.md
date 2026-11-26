@@ -189,3 +189,23 @@ Para comprobar el funcionamiento:
 6. Prueba `/movies/abc`, un ID válido que no exista, un título vacío y un año con texto para comprobar los errores.
 
 ---
+
+## Despliegue con Docker
+
+Necesitas Git, Docker y Docker Compose.
+
+```bash
+git clone https://github.com/VllsAlex/crud-peliculas-despligue.git
+cd crud-peliculas-despligue
+docker compose pull
+docker compose up -d --no-build
+```
+
+Abre http://localhost:3000. La base de datos empieza vacía y las
+películas que añadas se guardan en un volumen de Docker.
+
+Para parar el despliegue conservando las películas:
+
+```bash
+docker compose down
+```
