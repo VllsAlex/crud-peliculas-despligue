@@ -13,7 +13,7 @@ services:
 
   app:
     build: .
-    image: peliculas-app
+    image: ghcr.io/vllsalex/peliculas-app:1.0
     environment:
       MONGODB_URI: mongodb://mongodb:27017/movies
     ports:

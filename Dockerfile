@@ -1,4 +1,5 @@
 FROM node:26-alpine
+LABEL org.opencontainers.image.source="https://github.com/VllsAlex/peliculas-docker"
 
 WORKDIR /app
 
