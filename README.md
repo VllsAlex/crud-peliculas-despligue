@@ -20,7 +20,7 @@ Con Docker arrancado, ejecuta desde la carpeta del proyecto:
 sudo docker compose up -d
 ```
 
-El archivo `compose.yaml` utiliza la imagen `mongo:8`, publica el puerto `27017` y guarda las películas en el volumen `mongodb-movies-data`. `-d` deja el contenedor funcionando en segundo plano.
+El archivo `compose.yaml` arranca la aplicación en el puerto `3000` y MongoDB con la imagen `ghcr.io/vllsalex/peliculas-mongo:1.0`, basada en `mongo:8`. Guarda las películas en el volumen `mongodb_data` del proyecto Compose. `-d` deja los contenedores funcionando en segundo plano.
 
 Para pararlo:
 
@@ -201,8 +201,27 @@ docker compose pull
 docker compose up -d --no-build
 ```
 
-Abre http://localhost:3000. La base de datos empieza vacía y las
-películas que añadas se guardan en un volumen de Docker.
+Abre http://localhost:3000. Al inicializar un volumen vacío, MongoDB importa
+automáticamente tres películas de ejemplo desde `mongo/movies.json` en la base
+de datos `movies`, colección `movies`. Las películas que añadas se guardan en
+el volumen de Docker.
+
+La imagen de MongoDB se construye desde `mongo/Dockerfile`. El script
+`mongo/01-importar-peliculas.sh` usa `mongoimport --jsonArray --stopOnError` y se
+ejecuta únicamente durante la inicialización de un volumen vacío. Reiniciar o
+recrear los contenedores con el mismo volumen no vuelve a importar las películas
+ni modifica los datos existentes.
+
+El healthcheck consulta MongoDB a través del nombre de servicio `mongodb`, de
+modo que la aplicación espera a que termine la importación y arranque el servidor
+definitivo. La conexión sigue siendo `mongodb://mongodb:27017/movies`, sin
+autenticación, como en la configuración original.
+
+Para construir las imágenes localmente desde el código del repositorio:
+
+```bash
+docker compose up -d --build
+```
 
 Para parar el despliegue conservando las películas:
 

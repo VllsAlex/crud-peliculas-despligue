@@ -2,11 +2,13 @@ name: peliculas-docker
 
 services:
   mongodb:
-    image: mongo:8
+    build: ./mongo
+    image: ghcr.io/vllsalex/peliculas-mongo:1.0
     volumes:
       - mongodb_data:/data/db
     healthcheck:
-      test: ["CMD", "mongosh", "--quiet", "--eval", "quit(db.adminCommand({ ping: 1 }).ok === 1 ? 0 : 1)"]
+      # El servidor temporal de importación solo escucha en localhost.
+      test: ["CMD", "mongosh", "--host", "mongodb", "--quiet", "--eval", "quit(db.adminCommand({ ping: 1 }).ok === 1 ? 0 : 1)"]
       interval: 5s
       timeout: 5s
       retries: 10
